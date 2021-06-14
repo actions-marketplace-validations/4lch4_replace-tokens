@@ -1,6 +1,9 @@
 name: "4lch4/Replace Tokens"
 description: "Replace Strings (Tokens) w/in File(s)"
 author: "4lch4"
+outputs:
+  replaceCount:
+    description: The number of times a token was replaced.
 branding:
   icon: at-sign
   color: green

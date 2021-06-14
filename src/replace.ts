@@ -5,6 +5,7 @@ export async function replaceTokens(
   tokenSuffix: string,
   files: string[]
 ) {
+  let replaceCount = 0
   const fromRegEx = new RegExp(
     `${escapeDelimiter(tokenPrefix)}(.+?)${escapeDelimiter(tokenSuffix)}`,
     'gm'
@@ -23,6 +24,7 @@ export async function replaceTokens(
     to: (match: any) => {
       const m = match.match(matchRegEx)
       if (m) {
+        replaceCount++
         const tokenName = m[1]
         return process.env[tokenName] || ''
       }
@@ -31,7 +33,10 @@ export async function replaceTokens(
     }
   })
 
-  return result.filter(r => r.hasChanged).map(r => r.file)
+  return {
+    result: result.filter(r => r.hasChanged).map(r => r.file),
+    replaceCount
+  }
 }
 
 function escapeDelimiter(delimiter: string): string {
