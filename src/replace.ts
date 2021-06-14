@@ -1,4 +1,4 @@
-import replace from "replace-in-file";
+import { replaceInFile } from 'replace-in-file'
 
 export async function replaceTokens(
   tokenPrefix: string,
@@ -7,30 +7,33 @@ export async function replaceTokens(
 ) {
   const fromRegEx = new RegExp(
     `${escapeDelimiter(tokenPrefix)}(.+?)${escapeDelimiter(tokenSuffix)}`,
-    "gm"
-  );
+    'gm'
+  )
   const matchRegEx = new RegExp(
     `${escapeDelimiter(tokenPrefix)}(.+?)${escapeDelimiter(tokenSuffix)}`
-  );
+  )
 
-  const result = await replace({
+  console.log(`fromRegEx = ${fromRegEx}`)
+  console.log(`matchRegEx = ${matchRegEx}`)
+
+  const result = await replaceInFile({
     files,
     allowEmptyPaths: true,
     from: fromRegEx,
-    to: match => {
-      const m = match.match(matchRegEx);
+    to: (match: any) => {
+      const m = match.match(matchRegEx)
       if (m) {
-        const tokenName = m[1];
-        return process.env[tokenName] || "";
+        const tokenName = m[1]
+        return process.env[tokenName] || ''
       }
 
-      return "";
+      return ''
     }
-  });
+  })
 
-  return result.filter(r => r.hasChanged).map(r => r.file);
+  return result.filter(r => r.hasChanged).map(r => r.file)
 }
 
 function escapeDelimiter(delimiter: string): string {
-  return delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  return delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 }
