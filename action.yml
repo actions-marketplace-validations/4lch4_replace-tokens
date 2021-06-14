@@ -1,15 +1,21 @@
-name: "Replace tokens"
-description: "Replace tokens in files"
-author: "cschleiden"
+name: "4lch4/Replace Tokens"
+description: "Replace Strings (Tokens) w/in File(s)"
+author: "4lch4"
+branding:
+  icon: at-sign
+  color: green
 inputs:
   tokenPrefix:
-    description: ""
+    required: false
+    description: "The beginning of a token to replace."
     default: "#{"
   tokenSuffix:
-    description: ""
+    required: false
+    description: "The ending of a token to replace."
     default: "}#"
   files:
-    description: ""
+    required: true
+    description: "Glob expression, file name, or array of glob/file name"
     default: "#{"
 runs:
   using: "node12"
